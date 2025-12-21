@@ -1,0 +1,6 @@
+venv/
+__pycache__/
+*.pyc
+processed_conversations.json
+CLAUDE.md
+config.json
