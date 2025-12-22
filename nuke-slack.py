@@ -4,7 +4,7 @@ import json
 import os
 
 CACHE_FILE = "processed_conversations.json"
-INITIAL_RETRY_DELAY = 5  # Start with 5 seconds
+INITIAL_RETRY_DELAY = 2  # Start with 2 seconds
 MAX_RETRY_DELAY = 300    # Cap at 5 minutes
 
 # Global retry delay that persists across calls
@@ -57,17 +57,16 @@ def slack_api_call(method, url, **kwargs):
 
         result = response.json()
 
-        if result.get("ok"):
-            # Only decay if delay is above 20s (so we don't bounce between 5-10)
-            if current_retry_delay > 20:
-                current_retry_delay = current_retry_delay // 2
-            return result
 
         if result.get("error") == "ratelimited":
             current_retry_delay = min(current_retry_delay * 2, MAX_RETRY_DELAY)
             print(f"  Rate limited. Waiting {current_retry_delay}s before retry...")
             time.sleep(current_retry_delay)
             continue
+        else:
+            if current_retry_delay >= 2:
+                current_retry_delay = current_retry_delay // 2
+            return result
 
         return result
 
@@ -156,9 +155,6 @@ def delete_messages_in_channel(channel_id, channel_name, my_user_id):
                     skipped += 1
                 else:
                     print(f"  Failed to delete: {error}")
-
-            # Rate limit: ~1 request per second
-            time.sleep(1.2)
 
         # Check for more pages
         cursor = result.get("response_metadata", {}).get("next_cursor")
