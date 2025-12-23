@@ -48,3 +48,13 @@ Edit `anon-slack.py` and replace the `TOKEN` variable with your User OAuth Token
 ```bash
 python3 anon-slack.py
 ```
+
+## Resume Support
+
+The script creates a `processed_conversations.json` file to track which conversations have been fully processed. If the script is interrupted (Ctrl+C, network issue, etc.), you can simply run it again and it will skip already-processed conversations.
+
+**To start over from scratch**, delete the cache file:
+
+```bash
+rm processed_conversations.json
+```
