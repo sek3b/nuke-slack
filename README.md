@@ -1,4 +1,4 @@
-# anon-slack
+# nuke-slack
 
 A Python script to delete all of your own messages from Slack workspaces.
 
@@ -41,12 +41,12 @@ pip install requests
 
 ### 4. Configure your Slack token
 
-Edit `anon-slack.py` and replace the `TOKEN` variable with your User OAuth Token (starts with `xoxp-`).
+Edit `config.json` and add your User OAuth Token (starts with `xoxp-`).
 
 ## Usage
 
 ```bash
-python3 anon-slack.py
+python3 nuke-slack.py
 ```
 
 ## Resume Support

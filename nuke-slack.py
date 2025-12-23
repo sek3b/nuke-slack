@@ -160,6 +160,7 @@ def delete_messages_in_channel(channel_id, channel_name, my_user_id):
         cursor = result.get("response_metadata", {}).get("next_cursor")
         if not cursor:
             break
+        print(f"  Fetching more messages from {channel_name}...")
 
     return deleted, skipped
 
